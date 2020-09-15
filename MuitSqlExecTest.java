@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 
 public class MuitSqlExecTest {
 
-
     //保存sql执行顺序
     static LinkedList<String> results = new LinkedList<>();
 
@@ -38,11 +37,9 @@ public class MuitSqlExecTest {
 
     static void Execute(int[] visitPos, String[][] SQLlist) {
 
-        //结果列表为总执行语句时完成一次模拟
+        //结果列表长度为总语句数时完成一次模拟
         if (results.size() == totalSqlConut) {
-
             count++;
-
             System.out.println("情况 " + count + ":");
             for (String s : results) {
                 System.out.println(s);
