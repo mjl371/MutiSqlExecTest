@@ -1,0 +1,2 @@
+update X set c=1 where id=2;
+update X set c=2 where id=2;

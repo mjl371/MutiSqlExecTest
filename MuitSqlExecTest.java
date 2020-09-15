@@ -11,16 +11,23 @@ import java.io.InputStreamReader;
 
 public class MuitSqlExecTest {
 
+
+    //保存sql执行顺序
     static LinkedList<String> results = new LinkedList<>();
 
     static int count = 0;
 
+    //总执行sql行数
     static int totalSqlConut = 0;
 
     public static void main(String[] args) throws IOException {
 
-        String[][] SQLlist = getSqlList("sqlfile");
+        String path="sqlfile";
 
+        //从指定路径加载sql文件内语句进入二维数组
+        String[][] SQLlist = getSqlList(path);
+
+        //数组，标记各sql文件已执行的位置
         int[] visitPos = new int[SQLlist.length];
 
         Execute(visitPos, SQLlist);
@@ -31,6 +38,7 @@ public class MuitSqlExecTest {
 
     static void Execute(int[] visitPos, String[][] SQLlist) {
 
+        //结果列表为总执行语句时完成一次模拟
         if (results.size() == totalSqlConut) {
 
             count++;
@@ -43,6 +51,7 @@ public class MuitSqlExecTest {
             return;
         }
 
+        //遍历可执行的下一语句 回溯算法
         for (int i = 0; i < SQLlist.length; i++) {
 
             String exeSql = SQLlist[i][visitPos[i]];
@@ -54,13 +63,12 @@ public class MuitSqlExecTest {
             results.add("client" + (i + 1) + ":" + exeSql);
 
             int tmp = visitPos[i];
-
             visitPos[i]++;
 
             Execute(visitPos, SQLlist);
 
+            //回溯
             visitPos[i] = tmp;
-
             results.removeLast();
         }
 
@@ -88,6 +96,7 @@ public class MuitSqlExecTest {
 
             totalSqlConut = totalSqlConut + list.size();
 
+            //单个sql语句结束标志，防止溢出
             list.add(null);
 
             sqlLists[i] = list.toArray(new String[list.size()]);
